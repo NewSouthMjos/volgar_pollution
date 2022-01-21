@@ -1,0 +1,48 @@
+http://pogoda-sv.ru/apps/volgar/controller/frontend.php?action=getTimeParams
+
+ 
+Информация о загрязнении (заголовок с названиями):
+
+http://pogoda-sv.ru/apps/volgar/controller/frontend.php?action=getImpurities&postId=11
+
+ 
+
+Информация о загрязнении (значения):
+
+http://pogoda-sv.ru/apps/volgar/controller/frontend.php?action=getData&postId=11
+
+ 
+
+Информация о температуре и ветре(заголовок с названиями)
+
+http://pogoda-sv.ru/apps/volgar/controller/frontend.php?action=getMeteomeas&postId=11
+
+ 
+
+Информация о температуре и ветре (значения):
+
+http://pogoda-sv.ru/apps/volgar/controller/frontend.php?action=getDataMeteomeas&postId=11
+
+ 
+
+ 
+
+Информация ПО ВСЕМ АКТУАЛЬНЫМ ПОСТАМ:
+
+http://www.pogoda-sv.ru/apps/polldata/controller/frontend.php?action=getPostsAll
+
+ 
+
+ 
+
+ 
+
+ 
+
+Пункты на карте (не API)
+
+http://www.pogoda-sv.ru/monitoring/pollmap/
+
+ 
+
+http://pogoda-sv.ru/apps/volgar/controller/frontend.php?action=getData&postId=10
