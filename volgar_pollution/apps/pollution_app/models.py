@@ -17,7 +17,7 @@ class ImpurityData(models.Model):
     Используются для построения графика
     """
     datetime = models.DateTimeField(verbose_name='Дата и время', auto_now_add=True)
-    impurity_id = models.ForeignKey(Impurity, on_delete=models.CASCADE)
+    impurity = models.ForeignKey(Impurity, on_delete=models.CASCADE)
     value_st = models.FloatField(verbose_name='Значение в мг/м3')
     value_pdk = models.PositiveSmallIntegerField(
         verbose_name='Значение в процентах от ПДК'
