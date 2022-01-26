@@ -45,7 +45,6 @@ def write_impurities_data(impurities_dict: dict):
                 value_pdk=value_pdk)
             impuritydata_obj.save()
         except Impurity.DoesNotExist:
-            # log - cant find something
             bd_errors_count += 1
             logger.warning(f'Запись новой точки: impurity_id #{impurity_id} не найден в БД(таблице Impurity)!')
     logger.info(f'Запись данных загрязнения в БД успешно, ошибок: {bd_errors_count}')
