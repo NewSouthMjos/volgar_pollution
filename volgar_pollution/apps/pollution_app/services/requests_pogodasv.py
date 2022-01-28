@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 import requests
 import logging
 
@@ -54,6 +55,158 @@ def new_data_point():
     """Пытается положить в БД новые данные по загрязнению"""
     impurities_dict = get_impurities_data()
     write_impurities_data(impurities_dict)
+
+def check_impurities():
+    """
+    Запуск при старте: проверяет, что все значения
+    расшифровки загрязнений в таблице БД, и если нет,
+    удаляет всё присутствующее и записывает туда
+    по новой. Возвращает эти записи
+    """
+    not_in_bd_impurities = _is_initial_impurities_in_bd()
+    if len(not_in_bd_impurities) == 0:
+        return []
+    # _wipe_impurities(not_in_bd_impurities)
+    _write_impurities_initial(not_in_bd_impurities)
+    return not_in_bd_impurities
+
+def _write_impurities_initial(impurities_ids: list):
+    """
+    Записывает расшифровку недостающих загрязнений в БД
+    (таблицу Impurity). Принимает недостающие загрязнения
+    """
+
+    impurities_dict = {
+        "9": {
+            "impurity_id": "9",
+            "name": "Азота оксид",
+            "conlimit": "0.4",
+            "dangerclass": "3",
+        },
+        "10": {
+            "impurity_id": "10",
+            "name": "Азота диоксид",
+            "conlimit": "0.2",
+            "dangerclass": "3",
+        },
+        "11": {
+            "impurity_id": "11",
+            "name": "Аммиак",
+            "conlimit": "0.2",
+            "dangerclass": "4",
+        },
+        "12": {
+            "impurity_id": "12",
+            "name": "Сера диоксид",
+            "conlimit": "0.5",
+            "dangerclass": "3",
+        },
+        "13": {
+            "impurity_id": "13",
+            "name": "Сероводород",
+            "conlimit": "0.008",
+            "dangerclass": "2",
+        },
+        "14": {
+            "impurity_id": "14",
+            "name": "Углерода оксид",
+            "conlimit": "5",
+            "dangerclass": "4",
+        },
+        "15": {
+            "impurity_id": "15",
+            "name": "Формальдегид",
+            "conlimit": "0.05",
+            "dangerclass": "null",
+        },
+        "1002": {
+            "impurity_id": "1002",
+            "name": "Углеводороды C1-C5",
+            "conlimit": "200",
+            "dangerclass": "4",
+        },
+        "1003": {
+            "impurity_id": "1003",
+            "name": "Углеводороды C6-C10",
+            "conlimit": "50",
+            "dangerclass": "3",
+        },
+        "21": {
+            "impurity_id": "21",
+            "name": "Толуол",
+            "conlimit": "0.6",
+            "dangerclass": "null",
+        },
+        "22": {
+            "impurity_id": "22",
+            "name": "Этилбензол",
+            "conlimit": "0.02",
+            "dangerclass": "null",
+        },
+        "23": {
+            "impurity_id": "23",
+            "name": "Хлорбензол",
+            "conlimit": "0.1",
+            "dangerclass": "null",
+        },
+        "25": {
+            "impurity_id": "25",
+            "name": "О-ксилол",
+            "conlimit": "0.3",
+            "dangerclass": "null",
+        },
+        "27": {
+            "impurity_id": "27",
+            "name": "Фенол",
+            "conlimit": "0.01",
+            "dangerclass": "null",
+        },
+        "20": {
+            "impurity_id": "20",
+            "name": "Бензол",
+            "conlimit": "0.3",
+            "dangerclass": "null",
+        }
+    }
+    adding_dict = dict()
+    for impurity_id in impurities_ids:
+        if not(str(impurity_id) in impurities_dict.keys()):
+            raise ValueError(f'Переданное значение @{impurity_id} функции не находится в стандартном словаре!')
+        adding_dict[str(impurity_id)] = impurities_dict[str(impurity_id)]
+
+    for impurity_id, dict_value in adding_dict.items():
+        impurity_obj = Impurity(
+            impurity_id=int(impurity_id),
+            impurity_name=dict_value["name"],
+            conlimit=float(dict_value["conlimit"]),
+            dangerclass=int(dict_value["dangerclass"]) if dict_value["dangerclass"] != "null" else 0
+            )
+        impurity_obj.save()
+
+def _is_initial_impurities_in_bd():
+    """
+    Проверяет, каких начальных значений (о загрязнении) нет в
+    БД (таблице Impurity) и отдаёт список этих значений
+    """
+    impurities_ids = [
+        9, 10, 11, 12, 13, 14, 15, 1002, 1003, 21, 22, 23, 25, 20,
+    ]
+    impurities_not_in_bd = []
+    for impurity_id in impurities_ids:
+        try:
+            Impurity.objects.get(impurity_id=impurity_id)
+        except Impurity.DoesNotExist:
+            impurities_not_in_bd.append(impurity_id)
+    return impurities_not_in_bd
+    
+# def _wipe_impurities():
+#     """Удаляет все данные из таблицы Impurity"""
+#     Impurity.objects.all().delete()
+
+
+
+
+
 
 def main():
     a = get_impurities_data()
