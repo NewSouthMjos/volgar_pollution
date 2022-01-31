@@ -9,6 +9,7 @@ requests = "*"
 apscheduler = "*"
 dj-database-url = "*"
 python-dotenv = "*"
+whitenoise = "*"
 
 [dev-packages]
 
