@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn sharelist.wsgi --log-file -
+web: gunicorn volgar_pollution.wsgi --log-file -
