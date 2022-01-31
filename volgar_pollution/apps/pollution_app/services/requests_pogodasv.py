@@ -1,6 +1,9 @@
 from multiprocessing.sharedctypes import Value
+from sqlite3 import OperationalError
 import requests
 import logging
+
+from django.db.utils import OperationalError
 
 from pollution_app.models import Impurity, ImpurityData
 
@@ -196,6 +199,8 @@ def _is_initial_impurities_in_bd():
             Impurity.objects.get(impurity_id=impurity_id)
         except Impurity.DoesNotExist:
             impurities_not_in_bd.append(impurity_id)
+        except OperationalError:
+            return []
     return impurities_not_in_bd
 
 def main():

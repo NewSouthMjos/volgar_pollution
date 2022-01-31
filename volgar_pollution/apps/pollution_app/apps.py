@@ -16,6 +16,6 @@ class PollutionAppConfig(AppConfig):
 
         # Запуск инициализации начальных значений в БД
         # по расшифровке загрязнений, Impurity
-        # from pollution_app.services.requests_pogodasv import check_impurities
-        # not_in_bd_impurities = check_impurities()
-        # logger.info(f'Добавлены данные в таблицу Impurity: {not_in_bd_impurities}')
+        from pollution_app.services.requests_pogodasv import check_impurities
+        not_in_bd_impurities = check_impurities()
+        logger.info(f'Добавлены данные в таблицу Impurity: {not_in_bd_impurities}')
