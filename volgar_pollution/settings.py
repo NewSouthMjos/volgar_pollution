@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 import sys
 
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,12 +25,17 @@ sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
+load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-q3*=+v#x6_jf1cxx*@r-=$+0oyq$omp%1b)!75a*mldiyt1m76'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
+# Production
+ENVIRONMENT = os.environ.get('ENVIRONMENT', default='development')
+DEBUG = False if ENVIRONMENT == "production" else True
+# DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -80,12 +87,15 @@ WSGI_APPLICATION = 'volgar_pollution.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+DATABASES = {}
+if ENVIRONMENT == "production":
+    import dj_database_url
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+else:
+    DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
 
 
 # Password validation
@@ -165,3 +175,16 @@ LOGGING = {
         'level': 'INFO',
     },
 }
+
+# Production settings:
+if ENVIRONMENT == 'production':
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

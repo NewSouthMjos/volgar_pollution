@@ -7,6 +7,8 @@ name = "pypi"
 django = "*"
 requests = "*"
 apscheduler = "*"
+dj-database-url = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

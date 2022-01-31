@@ -60,13 +60,12 @@ def check_impurities():
     """
     Запуск при старте: проверяет, что все значения
     расшифровки загрязнений в таблице БД, и если нет,
-    удаляет всё присутствующее и записывает туда
-    по новой. Возвращает эти записи
+    добавляет отсутствующие записи. Возвращает добавленные
+    записи
     """
     not_in_bd_impurities = _is_initial_impurities_in_bd()
     if len(not_in_bd_impurities) == 0:
         return []
-    # _wipe_impurities(not_in_bd_impurities)
     _write_impurities_initial(not_in_bd_impurities)
     return not_in_bd_impurities
 
@@ -189,7 +188,7 @@ def _is_initial_impurities_in_bd():
     БД (таблице Impurity) и отдаёт список этих значений
     """
     impurities_ids = [
-        9, 10, 11, 12, 13, 14, 15, 1002, 1003, 21, 22, 23, 25, 20,
+        9, 10, 11, 12, 13, 14, 15, 1002, 1003, 21, 22, 23, 25, 20, 27
     ]
     impurities_not_in_bd = []
     for impurity_id in impurities_ids:
@@ -198,15 +197,6 @@ def _is_initial_impurities_in_bd():
         except Impurity.DoesNotExist:
             impurities_not_in_bd.append(impurity_id)
     return impurities_not_in_bd
-    
-# def _wipe_impurities():
-#     """Удаляет все данные из таблицы Impurity"""
-#     Impurity.objects.all().delete()
-
-
-
-
-
 
 def main():
     a = get_impurities_data()

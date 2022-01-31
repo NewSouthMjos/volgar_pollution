@@ -32,7 +32,8 @@ http://pogoda-sv.ru/apps/volgar/controller/frontend.php?action=getDataMeteomeas&
 http://www.pogoda-sv.ru/apps/polldata/controller/frontend.php?action=getPostsAll
 
  
-
+Комментарии по количеству превышений ПДК:
+http://pogoda-sv.ru/apps/volgar/controller/frontend.php?action=getDataComments&postId=11&selectedDate=2022-01-31
  
 
  
