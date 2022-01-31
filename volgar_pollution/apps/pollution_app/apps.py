@@ -11,8 +11,8 @@ class PollutionAppConfig(AppConfig):
     def ready(self):
         
         # Запуск собрания данных по расписанию
-        from pollution_app.services import data_update
-        data_update.start()
+        # from pollution_app.services import data_update
+        # data_update.start()
 
         # Запуск инициализации начальных значений в БД
         # по расшифровке загрязнений, Impurity
