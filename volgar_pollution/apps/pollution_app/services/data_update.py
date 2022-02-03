@@ -1,6 +1,6 @@
 from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
-from pollution_app.services.requests_pogodasv import new_data_point
+# from pollution_app.services.requests_pogodasv import new_data_point
 
 logger = logging.getLogger(__name__)
 
