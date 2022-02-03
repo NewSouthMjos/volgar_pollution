@@ -1,4 +1,6 @@
 from datetime import datetime
+import logging
+
 from apscheduler.schedulers.background import BackgroundScheduler
 # from pollution_app.services.requests_pogodasv import new_data_point
 
