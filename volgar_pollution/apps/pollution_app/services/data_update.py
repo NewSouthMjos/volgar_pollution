@@ -15,6 +15,7 @@ def start():
 
 def test_job():
     logger.info('Executed test job done!')
+    print('Executed test job done!')
 
 start()
 
